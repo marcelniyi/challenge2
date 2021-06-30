@@ -12,6 +12,12 @@ function App() {
   const [loading, setLoading] = useState(false);
   function handleSubmit(){
     setLoading(true);
+    if(!input){
+      toast("Provide album id as number!");
+      setLoading(false);
+      return false;
+    }
+
     fetch(`https://jsonplaceholder.typicode.com/albums/${input}/photos`)
       .then((response) => response.json())
       .then((json) => {
@@ -28,7 +34,7 @@ function App() {
       pauseOnHover
     />
     <ToastContainer />
-      <input type="number" inputMode="numeric" onChange={(e) => inputValue(e.target.value)} value={input}/>
+      <input type="number" inputMode="numeric" onChange={(e) => inputValue(e.target.value)} value={input} required/>
       <Button variant="success" onClick={() => handleSubmit()}>Get Album Photos By Id</Button>
 
       {  loading? <Spinner name="ball-pulse-rise" /> : photos.length !== 0 ? <Photos photos={photos} /> : <h4 style={{ marginTop: '30px' }} >Please select the album id</h4>
